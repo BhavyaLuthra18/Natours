@@ -165,11 +165,11 @@ tourSchema.pre(/^find/, function(next) {
 });
 
 // POST Middleware
-tourSchema.post(/^find/, function(docs, next) {
-  // console.log(`Query took ${Date.now() - this.start} milliseconds`);
-  //  console.log(docs);
-  next();
-});
+//tourSchema.post(/^find/, function(docs, next) {
+// console.log(`Query took ${Date.now() - this.start} milliseconds`);
+//  console.log(docs);
+//next();
+//});
 
 // AGGREGATION MIDDLEWARE
 //tourSchema.pre('aggregate', function(next) {
@@ -188,9 +188,9 @@ const Tour = mongoose.model('Tour', tourSchema);
   testTour
     .save()
     .then(doc => {
-      console.log(doc);
+    //  console.log(doc);
     })
     .catch(err => {
-      console.log('Error🔴', err);
+     // console.log('Error🔴', err);
     });*/
 module.exports = Tour;

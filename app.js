@@ -6,11 +6,10 @@ const morgan = require('morgan');
 const rateLimit = require('express-rate-limit');
 const helmet = require('helmet'); // collection of multiple middleware for security htpps headers
 const mongoSanitize = require('express-mongo-sanitize');
-
 const xss = require('xss-clean');
-
 const hpp = require('hpp');
 const cookieParser = require('cookie-parser');
+const compression = require('compression');
 
 const app = express();
 app.enable('trust proxy');
@@ -61,6 +60,7 @@ app.use(express.urlencoded({ extended: true, limit: '10kb' }));
 app.use(cookieParser()); // parses data from body
 // Data Sanitization  against NOSOL query injection
 app.use(mongoSanitize()); // will return a middlewaree that will look at req.boy ,query ,params and filter out the dollar sign and . that how mongoDb operators are going to work and they will not work now
+
 // Data sanitization against XSS
 // this will then clean  any user input  from malicious HTML code
 app.use(xss());
@@ -80,9 +80,12 @@ app.use(
   })
 ); // clear up the querystring
 
+app.use(compression());
+
 // ERROR HANDLING
 const AppError = require('./utilis/appError');
 const globalErrorHandler = require('./controllers/errorController');
+
 // Routes
 //Tour Router
 const tourRouter = require('./routes/tourRoutes');

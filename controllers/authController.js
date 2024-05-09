@@ -77,7 +77,7 @@ exports.login = catchAsync(async (req, res, next) => {
 
 // Log out user by passing dummy token instead and expires in 10 seconds
 exports.logout = (req, res) => {
-  console.log('Logout route accessed');
+  //console.log('Logout route accessed');
   res.cookie('jwt', 'loggedout', {
     expires: new Date(Date.now() + 10 * 1000),
     httpOnly: true

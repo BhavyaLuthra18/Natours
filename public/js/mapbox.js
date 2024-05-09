@@ -42,7 +42,7 @@ export const displayMap = locations => {
     bounds.extend(loc.coordinates);
   });
 
-  console.log('Map initialized:', map);
+  //console.log('Map initialized:', map);
 
   map.fitBounds(bounds, {
     padding: {
