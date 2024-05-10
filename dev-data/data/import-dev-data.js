@@ -39,7 +39,6 @@ const importData = async () => {
   }
   process.exit();
 };
-
 // DELETING  ALL DATA THAT WE CREATED AS DEMO FROM THE DATABASE
 const deleteData = async () => {
   try {
