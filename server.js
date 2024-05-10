@@ -14,10 +14,7 @@ process.on('uncaughtException', err => {
 });
 const app = require('./app');
 
-const DB = process.env.DATABASE.replace(
-  '<password>',
-  process.env.DATABASE_PASSWORD
-);
+const DB = process.env.DATABASE;
 mongoose
   // .connect(process.env.DATABASE_LOCAL, {
   // hosteded database version
@@ -30,7 +27,7 @@ mongoose
   // this con(connent) will be the result value of the connection
   .then(() => console.log('DB connection succesful !'));
 
-const port = process.env.PORT || 8584;
+const port = process.env.PORT || 5000;
 const server = app.listen(port, () => {
   console.log(`App running on port ${port}...`);
 });
