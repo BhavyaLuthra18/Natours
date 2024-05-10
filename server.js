@@ -15,6 +15,7 @@ process.on('uncaughtException', err => {
 const app = require('./app');
 
 const DB = process.env.DATABASE;
+
 mongoose
   // .connect(process.env.DATABASE_LOCAL, {
   // hosteded database version
