@@ -4,17 +4,7 @@ const authController = require('../controllers/authController');
 
 const router = express.Router();
 
-// Mounting the routers
-//app.get() which we use for rendering the page in the browser
-//render will render the template with the name wew
-// variables that we pass in here called locals in the pug file
-// Testt
-//router.get('/', (req, res) => {
-// res.status(200).render('base', {
-// tour: 'The Northern lights',
-// user: 'Bhavya'
-//});
-//});
+router.use(viewsController.alerts);
 
 // Overview page
 router.route('/').get(authController.isLoggedIn, viewsController.getOverview);
