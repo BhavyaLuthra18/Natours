@@ -18,12 +18,7 @@ const router = express.Router();
 //});
 
 //overview page
-router.get(
-  '/',
-  bookingController.createBookingCheckout,
-  authController.isLoggedIn,
-  viewsController.getOverview
-);
+router.get('/', authController.isLoggedIn, viewsController.getOverview);
 
 // route for specific tour
 router.get('/tour/:slug', authController.isLoggedIn, viewsController.getTour);
