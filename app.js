@@ -9,8 +9,31 @@ const mongoSanitize = require('express-mongo-sanitize');
 const xss = require('xss-clean');
 const hpp = require('hpp');
 const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
 const compression = require('compression');
 const cors = require('cors');
+
+// ERROR HANDLING
+const AppError = require('./utilis/appError');
+const globalErrorHandler = require('./controllers/errorController');
+
+// Routes
+//Tour Router
+const tourRouter = require('./routes/tourRoutes');
+//UserRouter
+const userRouter = require('./routes/userRoutes');
+
+// Review Router
+const reviewRouter = require('./routes/reviewRoutes');
+
+// views Router
+const viewRouter = require('./routes/viewRoutes');
+
+// booking Router
+const bookingRouter = require('./routes/bookingRoutes');
+
+//  bookingController
+const bookingController = require('./controllers/bookingController');
 
 const app = express();
 app.enable('trust proxy');
@@ -59,6 +82,12 @@ const limiter = rateLimit({
 });
 app.use('/api', limiter);
 
+app.post(
+  '/webhook-checkout',
+  bodyParser.raw({ type: 'application/json' }),
+  bookingController.webhookCheckout
+);
+
 // Body Parder , reading data from the body into req.body
 // can limit the data in the body
 app.use(express.json({ limit: '10kb' })); // this return a function then that function is added to the middleware stack parses data from body
@@ -87,25 +116,6 @@ app.use(
 ); // clear up the querystring
 
 app.use(compression());
-
-// ERROR HANDLING
-const AppError = require('./utilis/appError');
-const globalErrorHandler = require('./controllers/errorController');
-
-// Routes
-//Tour Router
-const tourRouter = require('./routes/tourRoutes');
-//UserRouter
-const userRouter = require('./routes/userRoutes');
-
-// Review Router
-const reviewRouter = require('./routes/reviewRoutes');
-
-// views Router
-const viewRouter = require('./routes/viewRoutes');
-
-// booking Router
-const bookingRouter = require('./routes/bookingRoutes');
 
 // MiddleWares
 // creating owm middleware function

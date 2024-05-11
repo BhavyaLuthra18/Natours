@@ -1,5 +1,6 @@
 const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const Tour = require('../models/tourModel');
+const User = require('../models/userModel');
 const catchAsync = require('../utilis/catchAsync');
 const factory = require('./handlerFactory');
 const Booking = require('../models/bookingModel');
@@ -14,9 +15,10 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
     // first is payment method types
     payment_method_types: ['card'],
     //success url that will be called as soon as the credit card has been successfully charged
-    success_url: `${req.protocol}://${req.get('host')}?tour=${
-      req.params.tourId
-    }&user=${req.user.id}&price=${tour.price}`, // home url
+    // success_url: `${req.protocol}://${req.get('host')}?tour=${
+    //   req.params.tourId
+    //}&user=${req.user.id}&price=${tour.price}`, // home url
+    success_url: `${req.protocol}://${req.get('host')}/my-tours`,
     // cancel url page user goes to cancel the current payment
     cancel_url: `${req.protocol}://${req.get('host')}/tour/${tour.slug}`, // tour page
     customer_email: req.user.email,
@@ -53,15 +55,41 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
 });
 
 // creating bookingCheckout
-exports.createBookingCheckout = catchAsync(async (req, res, next) => {
-  // This is only TEMPORARY, because its UNSECURE: everyone can make bookingwithout paying
-  const { tour, user, price } = req.query;
-  if (!tour && !user && !price) return next();
-  await Booking.create({ tour, user, price });
-  // redirect is creating new request to this new url that we pass in there
-  res.redirect(req.originalUrl.split('?')[0]); //homepage
-});
+//exports.createBookingCheckout = catchAsync(async (req, res, next) => {
+// This is only TEMPORARY, because its UNSECURE: everyone can make bookingwithout paying
+// const { tour, user, price } = req.query;
+//  if (!tour && !user && !price) return next();
+// await Booking.create({ tour, user, price });
+// redirect is creating new request to this new url that we pass in there
+// res.redirect(req.originalUrl.split('?')[0]); //homepage
+//});
 
+const createBookingCheckout = async session => {
+  const tour = session.client_reference_id;
+  const user = (await User.findOne({ email: session.customer_email })).id;
+  const price = session.amount_total / 100;
+  await Booking.create({ tour, user, price });
+};
+
+exports.webhookCheckout = (req, res, next) => {
+  // Rid stripe signatures out of our headers
+  const signature = req.headers['stripe-signature'];
+  let event;
+  try {
+    // validate the data comming in the body
+    event = stripe.webhooks.contructEvent(
+      req.body,
+      signature,
+      process.env.STRIPE_WEBHOOK_SECRET
+    );
+  } catch (err) {
+    return res.status(400).send(`Webhook error:${err.message}`);
+  }
+
+  if (event.type === 'checkout.session.complete')
+    createBookingCheckout(event.data.object);
+  res.status(200).json({ received: true });
+};
 //CRUD
 exports.createBooking = factory.createOne(Booking);
 exports.getBooking = factory.getOne(Booking);
