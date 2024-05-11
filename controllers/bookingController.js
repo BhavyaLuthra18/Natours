@@ -31,7 +31,11 @@ exports.getCheckoutSession = catchAsync(async (req, res, next) => {
             name: `${tour.name} Tour`,
             description: tour.summary,
             // these images need to be live images that are hosted on the internet because stripe will upload these images to their own server
-            images: [`http://127.0.0.1:8584/img/tours/${tour.imageCover}`]
+            images: [
+              `${req.protocol}://${req.get('host')}/img/tours/${
+                tour.imageCover
+              }`
+            ]
           },
           // amount the  price of the product that has been purchase x 100 to be cents 1 dollar = 100 cents
           unit_amount: tour.price * 100
