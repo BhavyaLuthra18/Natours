@@ -17,9 +17,6 @@ const router = express.Router();
 //});
 //});
 
-//overview page
-router.get('/', authController.isLoggedIn, viewsController.getOverview);
-
 // route for specific tour
 router.get('/tour/:slug', authController.isLoggedIn, viewsController.getTour);
 
@@ -34,7 +31,7 @@ router.get('/signup', authController.isLoggedIn, viewsController.getSignupForm);
 router.get('/me', authController.protect, viewsController.getAccount);
 
 // My bookings
-
+router.get('/my-tours', authController.isLoggedIn, viewsController.getMyTours);
 // updating the user data
 // without API
 router.post(
