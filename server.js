@@ -20,6 +20,8 @@ const uri = process.env.DATABASE.replace(
   process.env.DATABASE_PASSWORD
 );
 mongoose
+  // .connect(process.env.DATABASE_LOCAL, {
+  // hosteded database version
   .connect(uri, {
     useNewUrlParser: true,
     useUnifiedTopology: true
