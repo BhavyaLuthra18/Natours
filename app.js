@@ -10,6 +10,7 @@ const xss = require('xss-clean');
 const hpp = require('hpp');
 const cookieParser = require('cookie-parser');
 const compression = require('compression');
+const cors = require('cors');
 
 const app = express();
 app.enable('trust proxy');
@@ -27,7 +28,12 @@ app.use(express.static(path.join(__dirname, 'public')));
 // 3rd party middleware function Morgan
 // that allows us to see request data right in the console
 // GLOBAL MIDDLEWARES
+// Implement CORS
+app.use(cors());
+// Access-Control-Allow-Origin *
 
+// browsers sends that when there is a preflight phase
+app.options('*', cors());
 // for  security HTTP Headers
 app.use(
   helmet({
