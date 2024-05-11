@@ -39,12 +39,6 @@ router.get('/signup', authController.isLoggedIn, viewsController.getSignupForm);
 router.get('/me', authController.protect, viewsController.getAccount);
 
 // My bookings
-router.get(
-  '/my-tours',
-  //bookingController.createBooking,
-  authController.protect,
-  viewsController.getMyTours
-);
 
 // updating the user data
 // without API
