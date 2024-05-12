@@ -14,11 +14,11 @@ process.on('uncaughtException', err => {
 });
 const app = require('./app');
 
-//const uri = process.env.MONGODB_URI;
-const uri = process.env.DATABASE.replace(
-  '<PASSWORD>',
-  encodeURIComponent(process.env.DATABASE_PASSWORD)
-);
+const uri = process.env.DATABASE;
+//const uri = process.env.DATABASE.replace(
+//  '<PASSWORD>',
+// encodeURIComponent(process.env.DATABASE_PASSWORD)
+//);
 
 mongoose
   // .connect(process.env.DATABASE_LOCAL, {
