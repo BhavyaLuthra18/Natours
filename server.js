@@ -25,9 +25,7 @@ mongoose
   // hosteded database version
   .connect(uri, {
     useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
-    useFindAndModify: false
+    useUnifiedTopology: true
   })
   // this connect return the then a promise
   // this con(connent) will be the result value of the connection
