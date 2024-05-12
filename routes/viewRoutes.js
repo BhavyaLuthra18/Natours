@@ -23,8 +23,8 @@ router.get('/me', authController.protect, viewsController.getAccount);
 
 // My bookings
 router
-  .route('/my-tours')
-  .get(authController.protect, viewsController.getMyTours);
+  .route('/my-bookings')
+  .get(authController.protect, viewsController.getMyBookings);
 
 // updating the user data
 // without API

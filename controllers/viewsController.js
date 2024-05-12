@@ -9,7 +9,7 @@ exports.alerts = (req, res, next) => {
 
   if (alert === 'booking') {
     res.locals.alert =
-      "Your booking was successful! Please check your email for a confirmation. if your booking doesn't show up here immediatly , please come back localStorage.";
+      "Reservation confirmed! Check your indox for a confirmation email. if your booking doesn't appear immediately , please return later.";
   }
   next();
 };
@@ -71,7 +71,7 @@ exports.getAccount = (req, res) => {
   });
 };
 
-exports.getMyTours = catchAsync(async (req, res, next) => {
+exports.getMyBookings = catchAsync(async (req, res, next) => {
   //1) find all the tours that user has booked
   const bookings = await Booking.find({ user: req.user.id });
   // 2) Find Tours with return IDs
