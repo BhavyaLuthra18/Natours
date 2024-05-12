@@ -14,18 +14,20 @@ process.on('uncaughtException', err => {
 });
 const app = require('./app');
 
-//const uri = process.env.
-const uri = process.env.DATABASE.replace(
-  '<PASSWORD>',
-  process.env.DATABASE_PASSWORD
-);
+const uri = process.env.DATABASE;
+//const uri = process.env.DATABASE.replace(
+// '<PASSWORD>',
+// encodeURIComponent(process.env.DATABASE_PASSWORD)
+//);
 
 mongoose
   // .connect(process.env.DATABASE_LOCAL, {
   // hosteded database version
   .connect(uri, {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+    useFindAndModify: false
   })
   // this connect return the then a promise
   // this con(connent) will be the result value of the connection
