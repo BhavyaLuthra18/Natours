@@ -1116,7 +1116,7 @@ body {
     from(#000000),
     to(#28b487)
   );
-  background-image: linear-gradient(to right bottom, #7dd56f, #28b487);
+  background-image: linear-gradient(to right bottom, #000000, #28b487);
   opacity: 0.7;
 }
 .card__picture-img {
