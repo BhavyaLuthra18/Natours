@@ -1113,7 +1113,7 @@ body {
     linear,
     left top,
     right bottom,
-    from(#7dd56f),
+    from(#000000),
     to(#28b487)
   );
   background-image: linear-gradient(to right bottom, #7dd56f, #28b487);
